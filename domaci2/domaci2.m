@@ -25,7 +25,8 @@ legend('$x_{1}(t)$', '$x_{2}(t)$',...
 %% Računanje kr
 s = tf("s");
 Ak = A - B * K;
+R = 5;
 
 % G = G0 * kp
 G0 = C * inv(s * eye(2) - Ak) * B;
-kr = 1 / dcgain(s * G0 / s);
+kr = 1 / (dcgain(s * G0 / s));

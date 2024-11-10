@@ -180,10 +180,10 @@ clc;
 Ts = 0.001; 
 fs = 1 / Ts;
 t = 0:Ts:10;
-N = 10000;
-f_b = 0.01;
+N = 25;
+f_b = 0.1;
 
-u = @(t) harmonics([N, f_b, t]);
+u = @(t) harmonics(N, f_b, t);
 
 system = @(t, x) -2 * x + 3 * u(t);
 [~, x] = ode45(system, t, 0);
@@ -193,7 +193,6 @@ y = 3 * x;
 U = fftshift(fft(u(t)));
 Y = fftshift(fft(y'));
 G_mag = 20 * log10(abs(Y ./ U));
-
 waxis = linspace(-fs * pi, fs * pi, length(t));
 wmin = 2 * fs * pi / length(t);
 wmax = fs * pi;
