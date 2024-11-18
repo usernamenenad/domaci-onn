@@ -39,7 +39,7 @@ legend('$r(t)$', '$d(t)$', '$y(t)$', ...
 s = tf("s");
 Gpk = 1 / (s * (s + 1));
 
-w = 2;
+w = 20;
 
 % x = [rho0; sigma3; sigma2; sigma1; sigma0].
 % Dobijeno iz rješavanja sistema jednačina.
