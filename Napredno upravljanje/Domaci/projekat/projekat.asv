@@ -1,0 +1,23 @@
+Tf = 0.1;
+Ts = 0.001;
+%%
+
+a1 = 7;
+a0 = 8;
+b0 = 5;
+A = [0, 1; -a0, -a1];
+B = [0; b0];
+[P, L] = eig(A * Ts);
+
+Phi = P * expm(L) * inv(P);
+
+eigs = eig(A);
+
+Gamma = P * [1/eigs(1) * (exp(eigs(1) * Ts) - 1), 0; 
+             0, 1/eigs(2) * (exp(eigs(2) * Ts) - 1)] * inv(P) * B;
+
+C = [1, 0];
+D = 0;
+
+step(ss(Phi, Gamma, C, D))
+
