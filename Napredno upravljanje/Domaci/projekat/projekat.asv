@@ -1,0 +1,74 @@
+Ts = 1e-3;
+Tf = 1e-2;
+
+s = tf("s");
+z = tf('z');
+
+upd = 20;
+sw = 10;
+
+%% Sistem 1
+a0c_1 = 8;
+a1c_1 = 7;
+b0c_1 = 5;
+
+Ac_1 = [0, 1; -a0c_1, -a1c_1];
+Bc_1 = [0; b0c_1];
+
+sysc_1 = ss(Ac_1, Bc_1, [1, 0], 0);
+Gc_1 = tf(sysc_1);
+
+%% Sistem 2
+a0c_2 = 1;
+a1c_2 = 6;
+b0c_2 = 3;
+
+Ac_2 = [0, 1; -a0c_2, -a1c_2];
+Bc_2 = [0; b0c_2];
+
+sysc_2 = ss(Ac_2, Bc_2, [1, 0], 0);
+Gc_2 = tf(sysc_2);
+
+%% Diskretizacija sistema 1
+Gd_1 = c2d(Gc_1, Ts);
+sysd_1 = ss(Gd_1);
+
+a1d_1 = Gd_1.Denominator{1, 1}(2);
+a0d_1 = Gd_1.Denominator{1, 1}(3);
+b1d_1 = Gd_1.Numerator{1, 1}(2);
+b0d_1 = Gd_1.Numerator{1, 1}(3);
+
+Ad_1 = [0, 1; -a0d_1, -a1d_1];
+Bd_1 = [0; 1];
+Cd_1 = [b0d_1, b1d_1];
+
+%% Diskretizacija sistema 2
+Gd_2 = c2d(Gc_2, Ts);
+sysd_2 = ss(Gd_2);
+
+a1d_2 = Gd_2.Denominator{1, 1}(2);
+a0d_2 = Gd_2.Denominator{1, 1}(3);
+b1d_2 = Gd_2.Numerator{1, 1}(2);
+b0d_2 = Gd_2.Numerator{1, 1}(3);
+
+Ad_2 = [0, 1; -a0d_2, -a1d_2];
+Bd_2 = [0; 1];
+Cd_2 = [b0d_2, b1d_2];
+
+%% 
+b2f = (1 - exp(-Ts/Tf))^2 * exp(-Ts/Tf);
+b1f = (1 - exp(-Ts/Tf))^2;
+a2f = exp(-2*Ts/Tf);
+a1f = -2*exp(-Ts/Tf);
+
+Gf = minreal((b1f*z^(-1) + b2f*z^(-2)) / (1 + a1f*z^(-1) + a2f*z^(-2)));
+
+%%
+Aw = 1;
+Cw = 1;
+A_bar = [Ad_1, Bd_1 * Cw; 0, 0, Aw];
+C_bar = [Cd_, 0];
+
+p_est = [-exp(-15*1e-3), exp(-16*1e-3), exp(-17*1e-3)];
+L = place(A_bar', C_bar', p_est)';
+
