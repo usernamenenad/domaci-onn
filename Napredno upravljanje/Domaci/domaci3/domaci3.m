@@ -1,8 +1,9 @@
 %% Estimator i regulator po izlazima procesa.
-A = [-3, -2; 1, -2];
+A = [-3, 2; 1, -2];
 B = [0; 2];
 C = [0, 1];
 D = 0;
+x0 = [2; -2];
 
 p_est = [-10, -10];
 p_cl = [-1, -1];
@@ -27,21 +28,21 @@ x1_hat = out.x_est.Data(:, 1);
 x2_hat = out.x_est.Data(:, 2);
 
 subplot(211);
-plot(t, x1, LineWidth=1.5);
+plot(t, x1, 'LineWidth', 1.5);
 hold on;
 grid on;
-plot(t, x1_hat, LineWidth=1.5);
-xlabel('$t$', Interpreter='Latex');
+plot(t, x1_hat, 'LineWidth', 1.5);
+xlabel('$t$', 'Interpreter', 'Latex');
 legend('$x_{1}(t)$', '$\hat{x_{1}}(t)$',...
-       Interpreter = 'Latex',...
-       FontSize = 12);
+       'Interpreter', 'Latex',...
+       'FontSize', 12);
 
 subplot(212);
-plot(t, x2, LineWidth=1.5);
+plot(t, x2, 'LineWidth', 1.5);
 hold on;
 grid on;
-plot(t, x2_hat, LineWidth=1.5);
-xlabel('$t$', Interpreter='Latex');
+plot(t, x2_hat, 'LineWidth', 1.5);
+xlabel('$t$', 'Interpreter', 'Latex');
 legend('$x_{2}(t)$', '$\hat{x_{2}}(t)$',...
-       Interpreter = 'Latex',...
-       FontSize = 12);
+       'Interpreter', 'Latex',...
+       'FontSize', 12);
