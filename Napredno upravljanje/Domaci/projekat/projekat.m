@@ -63,3 +63,7 @@ a1f = -2*exp(-Ts/Tf);
 
 Gf = minreal((b1f*z^(-1) + b2f*z^(-2)) / (1 + a1f*z^(-1) + a2f*z^(-2)));
 
+%%
+Aw = 0;
+Cw = 1;
+
