@@ -1,5 +1,6 @@
 Ts = 1e-3;
 Tf = 1e-2;
+R = 5;
 
 s = tf("s");
 z = tf('z');
@@ -62,13 +63,3 @@ a2f = exp(-2*Ts/Tf);
 a1f = -2*exp(-Ts/Tf);
 
 Gf = minreal((b1f*z^(-1) + b2f*z^(-2)) / (1 + a1f*z^(-1) + a2f*z^(-2)));
-
-%%
-Aw = 1;
-Cw = 1;
-A_bar = [Ad_1, Bd_1 * Cw; 0, 0, Aw];
-C_bar = [Cd_1, 0];
-
-p_est = [-exp(-15*1e-3), exp(-16*1e-3), exp(-17*1e-3)];
-L = place(A_bar', C_bar', p_est)';
-
